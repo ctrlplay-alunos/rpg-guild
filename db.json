@@ -1,0 +1,19 @@
+{
+  "guilds": [
+    {
+      "id": "b80a",
+      "name": "Guardiões da Luz"
+    }
+  ],
+  "members": [],
+  "categories": [
+    {
+      "id": "495d",
+      "name": "Mago"
+    },
+    {
+      "id": "f332",
+      "name": "Monge"
+    }
+  ]
+}
