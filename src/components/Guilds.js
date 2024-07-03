@@ -1,11 +1,10 @@
-// src/components/Guilds.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function Guilds() {
   const [guilds, setGuilds] = useState([]);
 
-  const [name, setName] = useState('');
+  const [guild, setGuild] = useState();
 
   useEffect(() => {
     axios
@@ -14,35 +13,80 @@ export default function Guilds() {
       .catch((error) => console.error("Erro ao buscar as guildas:", error));
   }, []);
 
-  const addGuild = () => {
+  const addGuild = ({ name }) => {
     const newGuild = { name };
     axios
       .post("http://localhost:8000/guilds", newGuild)
       .then((response) => {
         setGuilds([...guilds, response.data]);
-        setName("");
+        setGuild();
       })
       .catch((error) => console.error("Erro ao adicionar categoria:", error));
   };
 
+  const editGuild = ({ id, name }) => {
+    const updatedGuild = {
+      name,
+    };
+    axios
+      .patch(`http://localhost:8000/guilds/${id}`, updatedGuild)
+      .then((response) => {
+        setGuilds(
+          guilds.map((guild) => (guild.id === id ? response.data : guild))
+        );
+        setGuild(undefined);
+      })
+      .catch((error) => console.error("Erro ao editar a categoria:", error));
+  };
+
+  const onSubmit = guild ? editGuild : addGuild;
+
+  const onClickGuild = (selected) => {
+    if (guild?.id !== selected.id) setGuild(selected);
+    else setGuild(undefined);
+  };
+
   return (
     <main>
-      <h1>Guilds</h1>
+      <h1>Guildas</h1>
       <ul>
         {guilds.map((guild) => (
-          <li key={guild.id}>{guild.name}</li>
+          <li
+            key={guild.id}
+            onClick={() => onClickGuild(guild)}
+            className="cursor-pointer"
+          >
+            {guild.name}
+          </li>
         ))}
       </ul>
-      <form>
-        <input
-          type="text"
-          placeholder="Guilda"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-
-        <button onClick={addGuild}>Adicionar</button>
-      </form>
+      <GuildForm onSubmit={onSubmit} guild={guild} />
     </main>
+  );
+}
+
+function GuildForm(props) {
+  const { guild: value, onSubmit } = props;
+
+  const [guild, setGuild] = useState({ id: 0, name: "" });
+
+  useEffect(() => setGuild(value ?? { id: 0, name: "" }), [value]);
+
+  return (
+    <form>
+      <div className="flex flex-col gap-1">
+        <label>Guilda</label>
+        <input
+          name="name"
+          type="text"
+          defaultValue={guild?.name}
+          onChange={(e) =>
+            setGuild((prev) => ({ ...prev, name: e.target.value }))
+          }
+        />
+      </div>
+
+      <button onClick={() => onSubmit(guild)}>Confirmar</button>
+    </form>
   );
 }
