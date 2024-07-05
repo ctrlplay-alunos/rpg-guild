@@ -13,8 +13,8 @@ export default function Categories() {
       .catch((error) => console.error("Erro ao buscar categorias:", error));
   }, []);
 
-  const addCategory = ({ category }) => {
-    const newCategory = { category };
+  const addCategory = ({ name }) => {
+    const newCategory = { name };
     axios
       .post("http://localhost:8000/categories", newCategory)
       .then((response) => {
