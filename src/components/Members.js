@@ -63,7 +63,7 @@ export default function Members() {
   };
 
   return (
-    <main>
+    <main className='flex flex-col gap-4 p-5'>
       <h1>Membros</h1>
       <ul>
         {members.map((member) => (

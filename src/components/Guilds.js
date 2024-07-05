@@ -47,7 +47,7 @@ export default function Guilds() {
   };
 
   return (
-    <main>
+    <main className='flex flex-col gap-4 p-5'>
       <h1>Guildas</h1>
       <ul>
         {guilds.map((guild) => (

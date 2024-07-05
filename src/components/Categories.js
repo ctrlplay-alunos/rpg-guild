@@ -49,7 +49,7 @@ export default function Categories() {
   };
 
   return (
-    <main>
+    <main className='flex flex-col gap-4 p-5'>
       <h1>Categorias</h1>
       <ul>
         {categories.map((category) => (
