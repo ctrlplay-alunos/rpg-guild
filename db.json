@@ -1,36 +1,5 @@
 {
-  "guilds": [
-    {
-      "id": "b80a",
-      "name": "Guardiões da Luz"
-    },
-    {
-      "id": "7ba7",
-      "name": "Sentinelas do Norte"
-    }
-  ],
-  "members": [
-    {
-      "id": "1b7a",
-      "name": "Kaelith Stormwind",
-      "categoryId": "f332",
-      "guildId": "b80a"
-    },
-    {
-      "id": "c7e5",
-      "name": "Selene Nightingale",
-      "categoryId": "495d",
-      "guildId": "7ba7"
-    }
-  ],
-  "categories": [
-    {
-      "id": "495d",
-      "name": "Mago"
-    },
-    {
-      "id": "f332",
-      "name": "Monge"
-    }
-  ]
+  "guilds": [],
+  "members": [],
+  "categories": []
 }

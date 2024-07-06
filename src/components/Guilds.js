@@ -21,7 +21,7 @@ export default function Guilds() {
         setGuilds([...guilds, response.data]);
         setGuild();
       })
-      .catch((error) => console.error("Erro ao adicionar categoria:", error));
+      .catch((error) => console.error("Erro ao adicionar a guilda:", error));
   };
 
   const editGuild = ({ id, name }) => {
@@ -36,7 +36,7 @@ export default function Guilds() {
         );
         setGuild(undefined);
       })
-      .catch((error) => console.error("Erro ao editar a categoria:", error));
+      .catch((error) => console.error("Erro ao editar a guilda:", error));
   };
 
   const onSubmit = guild ? editGuild : addGuild;
