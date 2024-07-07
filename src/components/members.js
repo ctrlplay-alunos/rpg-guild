@@ -14,13 +14,13 @@ export default function Members() {
   }, []);
 
   const addMember = ({ name, categoryId, guildId }) => {
-    const newMember = {
+    const created = {
       name,
       categoryId,
       guildId,
     };
     axios
-      .post("http://localhost:8000/members", newMember)
+      .post("http://localhost:8000/members", created)
       .then((response) => {
         setMembers([...members, response.data]);
         setMember(undefined);
@@ -29,13 +29,13 @@ export default function Members() {
   };
 
   const editMember = ({ id, name, categoryId, guildId }) => {
-    const updatedMember = {
+    const updated = {
       name,
       categoryId,
       guildId,
     };
     axios
-      .patch(`http://localhost:8000/members/${id}`, updatedMember)
+      .patch(`http://localhost:8000/members/${id}`, updated)
       .then((response) => {
         setMembers(
           members.map((member) => (member.id === id ? response.data : member))
@@ -92,7 +92,6 @@ function MemberForm(props) {
     guildId: 0,
   });
 
-  const [categories, setCategories] = useState([]);
   const [guilds, setGuilds] = useState([]);
 
   useEffect(
@@ -107,13 +106,6 @@ function MemberForm(props) {
       ),
     [value]
   );
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/categories")
-      .then((response) => setCategories(response.data))
-      .catch((error) => console.error("Erro ao buscar categorias:", error));
-  }, []);
 
   useEffect(() => {
     axios
@@ -134,25 +126,6 @@ function MemberForm(props) {
             setMember((prev) => ({ ...prev, name: e.target.value }))
           }
         />
-      </div>
-
-      <div className="flex flex-col gap-1">
-        <label>Membro</label>
-        <select
-          value={member?.categoryId ?? 0}
-          name="category"
-          placeholder="Categoria"
-          onChange={(e) =>
-            setMember((prev) => ({ ...prev, categoryId: e.target.value }))
-          }
-        >
-          <option value="" />
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
       </div>
 
       <div className="flex flex-col gap-1">

@@ -14,9 +14,9 @@ export default function Guilds() {
   }, []);
 
   const addGuild = ({ name }) => {
-    const newGuild = { name };
+    const created = { name };
     axios
-      .post("http://localhost:8000/guilds", newGuild)
+      .post("http://localhost:8000/guilds", created)
       .then((response) => {
         setGuilds([...guilds, response.data]);
         setGuild();
@@ -25,11 +25,11 @@ export default function Guilds() {
   };
 
   const editGuild = ({ id, name }) => {
-    const updatedGuild = {
+    const updated = {
       name,
     };
     axios
-      .patch(`http://localhost:8000/guilds/${id}`, updatedGuild)
+      .patch(`http://localhost:8000/guilds/${id}`, updated)
       .then((response) => {
         setGuilds(
           guilds.map((guild) => (guild.id === id ? response.data : guild))
