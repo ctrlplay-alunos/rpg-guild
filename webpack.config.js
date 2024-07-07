@@ -18,12 +18,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: [".js", ".jsx"],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -31,9 +31,17 @@ module.exports = {
     }),
   ],
   devServer: {
-    static: './dist',
+    static: "./dist",
     static: path.join(__dirname, "dist"),
     compress: true,
     port: 3000,
+    proxy: [
+      {
+        context: ["/api"],
+        target: "http://localhost:8000",
+        pathRewrite: { "^/api": "" },
+      },
+    ],
+    historyApiFallback: true,
   },
 };

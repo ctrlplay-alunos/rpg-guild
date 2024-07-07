@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import requester from "../axios";
 
 export default function Members() {
   const [member, setMember] = useState();
@@ -7,20 +7,20 @@ export default function Members() {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/members")
+    requester
+      .get("/members")
       .then((response) => setMembers(response.data))
       .catch((error) => console.error("Erro ao buscar membros:", error));
   }, []);
 
-  const addMember = ({ name, categoryId, guildId }) => {
+  const addMember = ({ name, guildId }) => {
     const created = {
       name,
-      categoryId,
       guildId,
     };
-    axios
-      .post("http://localhost:8000/members", created)
+
+    requester
+      .post("/members", created)
       .then((response) => {
         setMembers([...members, response.data]);
         setMember(undefined);
@@ -28,14 +28,14 @@ export default function Members() {
       .catch((error) => console.error("Erro ao adicionar membro:", error));
   };
 
-  const editMember = ({ id, name, categoryId, guildId }) => {
+  const editMember = ({ id, name, guildId }) => {
     const updated = {
       name,
-      categoryId,
       guildId,
     };
-    axios
-      .patch(`http://localhost:8000/members/${id}`, updated)
+
+    requester
+      .patch(`/members/${id}`, updated)
       .then((response) => {
         setMembers(
           members.map((member) => (member.id === id ? response.data : member))
@@ -46,8 +46,8 @@ export default function Members() {
   };
 
   const deleteMember = ({ id }) => {
-    axios
-      .delete(`http://localhost:8000/members/${id}`)
+    requester
+      .delete(`/members/${id}`)
       .then(() => {
         setMembers(members.filter((member) => member.id !== id));
         setMember(undefined);
@@ -63,7 +63,7 @@ export default function Members() {
   };
 
   return (
-    <main className='flex flex-col gap-4 p-5'>
+    <main className="flex flex-col gap-4 p-5">
       <h1>Membros</h1>
       <ul>
         {members.map((member) => (
@@ -88,7 +88,6 @@ function MemberForm(props) {
   const [member, setMember] = useState({
     id: 0,
     name: "",
-    categoryId: 0,
     guildId: 0,
   });
 
@@ -100,7 +99,6 @@ function MemberForm(props) {
         value ?? {
           id: 0,
           name: "",
-          categoryId: 0,
           guildId: 0,
         }
       ),
@@ -108,14 +106,19 @@ function MemberForm(props) {
   );
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/guilds")
+    requester
+      .get("/guilds")
       .then((response) => setGuilds(response.data))
       .catch((error) => console.error("Erro ao buscar as guildas:", error));
   }, []);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(member);
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="flex flex-col gap-1">
         <label>Membro</label>
         <input
@@ -146,7 +149,7 @@ function MemberForm(props) {
           ))}
         </select>
       </div>
-      <button onClick={() => onSubmit(member)}>Adicionar</button>
+      <button type="submit">Adicionar</button>
     </form>
   );
 }

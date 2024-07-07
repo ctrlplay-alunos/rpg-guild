@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import requester from "../axios";
 
 export default function Guilds() {
   const [guilds, setGuilds] = useState([]);
@@ -7,29 +7,35 @@ export default function Guilds() {
   const [guild, setGuild] = useState();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/guilds")
+    requester
+      .get("/guilds")
       .then((response) => setGuilds(response.data))
       .catch((error) => console.error("Erro ao buscar as guildas:", error));
   }, []);
 
-  const addGuild = ({ name }) => {
+  const addGuild = (guild) => {
+    const { name } = guild;
+
     const created = { name };
-    axios
-      .post("http://localhost:8000/guilds", created)
+
+    requester
+      .post("/guilds", created)
       .then((response) => {
         setGuilds([...guilds, response.data]);
-        setGuild();
+        setGuild(undefined);
       })
       .catch((error) => console.error("Erro ao adicionar a guilda:", error));
   };
 
-  const editGuild = ({ id, name }) => {
+  const editGuild = (guild) => {
+    const { id, name } = guild;
+
     const updated = {
       name,
     };
-    axios
-      .patch(`http://localhost:8000/guilds/${id}`, updated)
+
+    requester
+      .patch(`/guilds/${id}`, updated)
       .then((response) => {
         setGuilds(
           guilds.map((guild) => (guild.id === id ? response.data : guild))
@@ -37,6 +43,16 @@ export default function Guilds() {
         setGuild(undefined);
       })
       .catch((error) => console.error("Erro ao editar a guilda:", error));
+  };
+
+  const deleteGuild = ({ id }) => {
+    requester
+      .delete(`/guilds/${id}`)
+      .then(() => {
+        setGuilds(guilds.filter((guild) => guild.id !== id));
+        setGuild(undefined);
+      })
+      .catch((error) => console.error("Erro ao deletar a guilda:", error));
   };
 
   const onSubmit = guild ? editGuild : addGuild;
@@ -47,16 +63,17 @@ export default function Guilds() {
   };
 
   return (
-    <main className='flex flex-col gap-4 p-5'>
+    <main className="flex flex-col gap-4 p-5">
       <h1>Guildas</h1>
       <ul>
         {guilds.map((guild) => (
           <li
             key={guild.id}
             onClick={() => onClickGuild(guild)}
-            className="cursor-pointer"
+            className="cursor-pointer flex gap-4"
           >
             {guild.name}
+            <button onClick={() => deleteGuild(guild)}>Excluir</button>
           </li>
         ))}
       </ul>
@@ -72,8 +89,13 @@ function GuildForm(props) {
 
   useEffect(() => setGuild(value ?? { id: 0, name: "" }), [value]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(guild);
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="flex flex-col gap-1">
         <label>Guilda</label>
         <input
@@ -86,7 +108,7 @@ function GuildForm(props) {
         />
       </div>
 
-      <button onClick={() => onSubmit(guild)}>Confirmar</button>
+      <button type="submit">Confirmar</button>
     </form>
   );
 }

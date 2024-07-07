@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "proxy": "http://localhost:8000",
   "scripts": {
     "start": "webpack serve --mode development",
     "build": "webpack --mode production",
     "test": "jest",
-    "json-server": "json-server --watch db.json --port 8000"
+    "server": "json-server --watch db.json --port 8000"
   },
   "keywords": [],
   "author": "",
