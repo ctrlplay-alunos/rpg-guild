@@ -9,52 +9,60 @@ export default function Members() {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
-    requester
-      .get("/members")
-      .then((response) => setMembers(response.data))
-      .catch((error) => console.error("Erro ao buscar membros:", error));
+    const getMembers = async () => {
+      try {
+        const response = await requester.get("/members");
+        setMembers(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar os membros:", error);
+      }
+    };
+
+    getMembers();
   }, []);
 
-  const addMember = ({ name, guildId }) => {
+  const addMember = async ({ name, guildId }) => {
     const created = {
       name,
       guildId,
     };
 
-    requester
-      .post("/members", created)
-      .then((response) => {
-        setMembers([...members, response.data]);
-        setMember(undefined);
-      })
-      .catch((error) => console.error("Erro ao adicionar membro:", error));
+    try {
+      const response = await requester.post("/members", created);
+
+      setMembers([...members, response.data]);
+      setMember(undefined);
+    } catch (error) {
+      console.error("Erro ao adicionar membro:", error);
+    }
   };
 
-  const editMember = ({ id, name, guildId }) => {
+  const editMember = async ({ id, name, guildId }) => {
     const updated = {
       name,
       guildId,
     };
 
-    requester
-      .patch(`/members/${id}`, updated)
-      .then((response) => {
-        setMembers(
-          members.map((member) => (member.id === id ? response.data : member))
-        );
-        setMember(undefined);
-      })
-      .catch((error) => console.error("Erro ao editar o membro:", error));
+    try {
+      const response =  await requester.patch(`/members/${id}`, updated);
+      setMembers(
+        members.map((member) => (member.id === id ? response.data : member))
+      );
+      setMember(undefined);
+    } catch (error) {
+      console.error("Erro ao editar o membro:", error);
+    }
   };
 
-  const deleteMember = ({ id }) => {
-    requester
-      .delete(`/members/${id}`)
-      .then(() => {
-        setMembers(members.filter((member) => member.id !== id));
-        setMember(undefined);
-      })
-      .catch((error) => console.error("Erro ao deletar o membro:", error));
+  const deleteMember = async ({ id }) => {
+    try {
+      await requester.delete(`/members/${id}`);
+
+      setMembers(members.filter((member) => member.id !== id));
+      setMember(undefined);
+    } catch (error) {
+      console.error("Erro ao deletar o membro:", error);
+    }
   };
 
   const onSubmit = member ? editMember : addMember;

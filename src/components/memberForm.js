@@ -6,30 +6,25 @@ function MemberForm(props) {
   const { member: value, onSubmit } = props;
 
   const [member, setMember] = useState({
-    id: 0,
     name: "",
     guildId: 0,
   });
 
   const [guilds, setGuilds] = useState([]);
 
-  useEffect(
-    () =>
-      setMember(
-        value ?? {
-          id: 0,
-          name: "",
-          guildId: 0,
-        }
-      ),
-    [value]
-  );
+  useEffect(() => setMember(value ?? member), [value]);
 
   useEffect(() => {
-    requester
-      .get("/guilds")
-      .then((response) => setGuilds(response.data))
-      .catch((error) => console.error("Erro ao buscar as guildas:", error));
+    const getGuilds = async () => {
+      try {
+        const response = await requester.get("/guilds");
+        setGuilds(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar as guildas:", error);
+      }
+    };
+
+    getGuilds();
   }, []);
 
   const handleSubmit = (e) => {
@@ -48,6 +43,7 @@ function MemberForm(props) {
           onChange={(e) =>
             setMember((prev) => ({ ...prev, name: e.target.value }))
           }
+          data-testid="nameInput"
         />
       </div>
 
@@ -60,6 +56,7 @@ function MemberForm(props) {
           onChange={(e) =>
             setMember((prev) => ({ ...prev, guildId: e.target.value }))
           }
+          data-testid="guildSelect"
         >
           <option value="" />
           {guilds.map((guild) => (

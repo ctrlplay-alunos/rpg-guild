@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 function GuildForm(props) {
   const { guild: value, onSubmit } = props;
 
-  const [guild, setGuild] = useState({ id: 0, name: "" });
+  const [guild, setGuild] = useState({ name: "" });
 
-  useEffect(() => setGuild(value ?? { id: 0, name: "" }), [value]);
+  useEffect(() => setGuild(value ?? guild), [value]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
