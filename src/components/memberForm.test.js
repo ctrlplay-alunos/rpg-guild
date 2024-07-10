@@ -14,6 +14,12 @@ const guilds = [
   },
 ];
 
+const member = {
+  id: "7eb4",
+  name: "Selene Nightingale",
+  guildId: "325c",
+};
+
 describe("member form test", () => {
   const onSubmit = jest.fn();
 
@@ -46,6 +52,34 @@ describe("member form test", () => {
 
     expect(onSubmit).toHaveBeenCalledWith({
       name: "Selene Nightingale",
+      guildId: "325c",
+    });
+  });
+
+  test("edit member", async() => {
+    render(<MemberForm onSubmit={onSubmit} member={member}/>);
+
+    await waitFor(() => expect(requester.get).toHaveBeenCalledWith("/guilds"));
+
+    const nameInput = screen.getByTestId("nameInput");
+
+    const guildSelect = screen.getByTestId("guildSelect");
+
+    expect(nameInput).toHaveValue("Selene Nightingale");
+
+    expect(guildSelect).toHaveValue("325c");
+
+    fireEvent.change(nameInput, {
+      target: { value: "Selene Night" },
+    });
+
+    expect(nameInput).toHaveValue("Selene Night");
+
+    fireEvent.click(screen.getByRole("button"));
+
+    expect(onSubmit).toHaveBeenCalledWith({
+      id: "7eb4",
+      name: "Selene Night",
       guildId: "325c",
     });
   });
