@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const requester = axios.create({
-  baseURL: '/api',
+  baseURL: 'http://localhost:8000',
 });
 
 export default requester;

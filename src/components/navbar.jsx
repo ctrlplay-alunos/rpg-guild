@@ -1,7 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Navbar() {
+export function Navbar() {
   return (
     <nav className="flex w-full gap-5 h-[65px] items-center bg-[#E9E0D5] p-5">
       <h1 className="text-lg lg:text-xl">RPG Guild</h1>
