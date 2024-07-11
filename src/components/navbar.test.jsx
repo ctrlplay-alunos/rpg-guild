@@ -1,7 +1,7 @@
-import React from "react";
+import { describe, test, expect } from "@jest/globals";
 
 import { render, screen } from "../testUtils";
-import Navbar from "./navbar";
+import { Navbar } from "./navbar";
 
 describe("navbar test", () => {
   test("links", () => {
