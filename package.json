@@ -11,9 +11,6 @@
     "server": "json-server --watch db.json --port 8000"
   },
   "dependencies": {
-    "@babel/preset-env": "^7.24.8",
-    "@babel/preset-react": "^7.24.7",
-    "@testing-library/jest-dom": "^6.4.6",
     "axios": "^1.7.2",
     "json-server": "^1.0.0-beta.1",
     "react": "^18.3.1",
@@ -21,8 +18,11 @@
     "react-router-dom": "^6.24.1"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.24.8",
+    "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
     "@testing-library/dom": "^10.3.1",
+    "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
