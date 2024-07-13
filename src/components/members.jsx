@@ -34,7 +34,7 @@ export function Members() {
   const updateMembers = (data) => setMembers([...members, data]);
 
   return (
-    <div className="flex flex-col gap-4 p-5">
+    <div className="flex flex-col gap-4 p-5 text-orange-500">
       <h1>Membros</h1>
       <ul>
         {members.map((member) => (

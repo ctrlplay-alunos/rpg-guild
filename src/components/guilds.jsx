@@ -34,7 +34,7 @@ export function Guilds() {
   const updateGuilds = (data) => setGuilds([...guilds, data]);
 
   return (
-    <div className="flex flex-col gap-4 p-5">
+    <div className="flex flex-col gap-4 p-5 text-orange-500">
       <h1>Guildas</h1>
       <ul>
         {guilds.map((guild) => (
