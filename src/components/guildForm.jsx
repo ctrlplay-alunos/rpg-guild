@@ -57,7 +57,7 @@ export function GuildForm(props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-orange-500">
       <div className="flex flex-col gap-1">
         <label>Guilda</label>
         <input
