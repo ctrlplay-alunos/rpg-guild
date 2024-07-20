@@ -65,15 +65,15 @@ export function MemberForm(props) {
     getGuilds();
   }, []);
 
-  const onSubmit = memberId ? editMember : addMember;
+  const handleSubmit = memberId ? editMember : addMember;
 
-  const handleSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    onSubmit(member);
+    handleSubmit(member);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-orange-500">
+    <form onSubmit={onSubmit} className="flex flex-col gap-4 text-orange-500">
       <div className="flex flex-col gap-1">
         <label>Membro</label>
         <input
