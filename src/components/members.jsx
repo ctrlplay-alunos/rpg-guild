@@ -38,7 +38,7 @@ export function Members() {
       <h1>Membros</h1>
       <ul>
         {members.map((member) => (
-          <li key={member.id} className="cursor-pointer flex gap-4">
+          <li key={member.id} className="cursor-pointer flex gap-4 items-center">
             {member.name}
             <button onClick={() => navigate(member.id)}>Editar</button>
             <button onClick={() => deleteMember(member)}>Excluir</button>

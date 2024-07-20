@@ -38,7 +38,7 @@ export function Guilds() {
       <h1>Guildas</h1>
       <ul>
         {guilds.map((guild) => (
-          <li key={guild.id} className="cursor-pointer flex gap-4">
+          <li key={guild.id} className="cursor-pointer flex gap-4 items-center">
             {guild.name}
             <button onClick={() => navigate(guild.id)}>Editar</button>
             <button onClick={() => deleteGuild(guild)}>Excluir</button>
