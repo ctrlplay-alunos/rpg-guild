@@ -1,16 +1,18 @@
-import { describe, test, expect } from "@jest/globals";
-
 import { render, screen } from "../testUtils";
 import { Navbar } from "./navbar";
 
-describe("navbar test", () => {
-  test("links", () => {
-    render(<Navbar />);
+test("Navbar contains correct links", () => {
+  render(<Navbar />);
 
-    expect(screen.getByText("Home")).toHaveAttribute("href", "/");
+  const homeLink = screen.getByText("Home");
+  expect(homeLink).toBeInTheDocument();
+  expect(homeLink).toHaveAttribute("href", "/");
 
-    expect(screen.getByText("Guildas")).toHaveAttribute("href", "/guilds");
+  const guildsLink = screen.getByText("Guildas");
+  expect(guildsLink).toBeInTheDocument();
+  expect(guildsLink).toHaveAttribute("href", "/guilds");
 
-    expect(screen.getByText("Membros")).toHaveAttribute("href", "/members");
-  });
+  const membersLink = screen.getByText("Membros");
+  expect(membersLink).toBeInTheDocument();
+  expect(membersLink).toHaveAttribute("href", "/members");
 });
