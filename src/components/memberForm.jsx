@@ -30,7 +30,7 @@ export function MemberForm(props) {
     try {
       const response = await requester.post("/members", created);
       setMember(response?.data);
-      props.updateMembers?.(response?.data)
+      props.updateMembers?.(response?.data);
     } catch (error) {
       console.error("Erro ao adicionar membro:", error);
     }
@@ -77,6 +77,7 @@ export function MemberForm(props) {
       <div className="flex flex-col gap-1">
         <label>Membro</label>
         <input
+          role="input"
           name="name"
           type="text"
           defaultValue={member?.name}
@@ -90,6 +91,7 @@ export function MemberForm(props) {
       <div className="flex flex-col gap-1">
         <label>Guilda</label>
         <select
+          role="select"
           value={member?.guildId ?? 0}
           name="guild"
           placeholder="Guilda"
@@ -106,7 +108,9 @@ export function MemberForm(props) {
           ))}
         </select>
       </div>
-      <button type="submit" className="w-fit">Confirmar</button>
+      <button type="submit" className="w-fit">
+        Confirmar
+      </button>
     </form>
   );
 }
