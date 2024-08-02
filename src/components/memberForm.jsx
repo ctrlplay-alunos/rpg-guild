@@ -84,7 +84,6 @@ export function MemberForm(props) {
           onChange={(e) =>
             setMember((prev) => ({ ...prev, name: e.target.value }))
           }
-          data-testid="nameInput"
         />
       </div>
 
@@ -98,7 +97,6 @@ export function MemberForm(props) {
           onChange={(e) =>
             setMember((prev) => ({ ...prev, guildId: e.target.value }))
           }
-          data-testid="guildSelect"
         >
           <option value="" />
           {guilds.map((guild) => (

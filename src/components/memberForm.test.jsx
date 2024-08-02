@@ -62,7 +62,4 @@ describe("MemberForm tests", () => {
 
     expect(updateMembers).toHaveBeenCalled();
   });
-
-  it("should edit an existing member", async () => {
-  });
 });
