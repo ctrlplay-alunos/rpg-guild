@@ -1,25 +1,9 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 
 import requester from "../axios";
 
 export function MemberForm(props) {
-  const { memberId } = useParams();
-
   const [member, setMember] = useState();
-
-  useEffect(() => {
-    const getMember = async () => {
-      try {
-        const response = await requester.get(`/members/${memberId}`);
-        setMember(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar o membro:", error);
-      }
-    };
-
-    if (memberId) getMember();
-  }, [memberId]);
 
   const addMember = async ({ name, guildId }) => {
     const created = {
@@ -33,20 +17,6 @@ export function MemberForm(props) {
       props.updateMembers?.(response?.data);
     } catch (error) {
       console.error("Erro ao adicionar membro:", error);
-    }
-  };
-
-  const editMember = async ({ id, name, guildId }) => {
-    const updated = {
-      name,
-      guildId,
-    };
-
-    try {
-      const response = await requester.patch(`/members/${id}`, updated);
-      setMember(response?.data);
-    } catch (error) {
-      console.error("Erro ao editar o membro:", error);
     }
   };
 
@@ -65,11 +35,9 @@ export function MemberForm(props) {
     getGuilds();
   }, []);
 
-  const handleSubmit = memberId ? editMember : addMember;
-
   const onSubmit = (e) => {
     e.preventDefault();
-    handleSubmit(member);
+    addMember(member);
   };
 
   return (
