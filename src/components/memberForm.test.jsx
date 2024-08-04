@@ -19,17 +19,22 @@ const guilds = [
   },
 ];
 
+const member = {
+  id: "7eb4",
+  name: "Selene Nightingale",
+  guildId: "325c",
+};
+
 describe("MemberForm tests", () => {
-  
   beforeEach(() => {
     requester.get.mockResolvedValue({
       data: guilds,
     });
   });
-  
+
   it("should create a new member", async () => {
     jest.spyOn(Router, "useParams").mockReturnValue({ memberId: undefined });
-    
+
     const updateMembers = jest.fn();
 
     render(<MemberForm updateMembers={updateMembers} />);
@@ -52,7 +57,6 @@ describe("MemberForm tests", () => {
 
     fireEvent.click(screen.getByRole("button"));
 
-    
     await waitFor(() =>
       expect(requester.post).toHaveBeenCalledWith("/members", {
         name: "Selene Nightingale",
