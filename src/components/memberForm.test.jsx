@@ -66,4 +66,43 @@ describe("MemberForm tests", () => {
 
     expect(updateMembers).toHaveBeenCalled();
   });
+
+  it("should edit an existing member", async () => {
+    jest.spyOn(Router, "useParams").mockReturnValue({ memberId: member.id });
+
+    requester.get.mockResolvedValueOnce({
+      data: member,
+    });
+
+    render(<MemberForm />);
+
+    await waitFor(() =>
+      expect(requester.get).toHaveBeenCalledWith("/members/7eb4")
+    );
+
+    await waitFor(() => expect(requester.get).toHaveBeenCalledWith("/guilds"));
+
+    const input = screen.getByRole("input");
+
+    const select = screen.getByRole("select");
+
+    expect(input).toHaveValue("Selene Nightingale");
+
+    expect(select).toHaveValue("325c");
+
+    fireEvent.change(input, {
+      target: { value: "Selene Night" },
+    });
+
+    expect(input).toHaveValue("Selene Night");
+
+    fireEvent.click(screen.getByRole("button"));
+
+    await waitFor(() =>
+      expect(requester.patch).toHaveBeenCalledWith("/members/7eb4", {
+        name: "Selene Night",
+        guildId: "325c",
+      })
+    );
+  });
 });
